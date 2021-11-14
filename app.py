@@ -29,11 +29,11 @@ RESOLUTION_FULLHD = (1920, 1080)
 def cam_init(cam_index, width, height): 
     cap = cv2.VideoCapture(cam_index)
     if sys.version_info < (3, 0):
-        cap.set(cv2.cv.CV_CAP_PROP_FPS, 30)
+        cap.set(cv2.cv.CV_CAP_PROP_FPS, 60)
         cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH,  width)
         cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, height)
     else:
-        cap.set(cv2.CAP_PROP_FPS, 30)
+        cap.set(cv2.CAP_PROP_FPS, 60)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH,  width)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     return cap
@@ -72,7 +72,6 @@ def process_facedetection():
         print("Warning, check if models and trained dataset models exists!")
     (age, gender, emotion) = (None, None, None)
 
-
     while (True):
 
         # Capture frame from webcam
@@ -103,7 +102,6 @@ def process_facedetection():
                 (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(frame, "Emotion: {}".format(emotion), 
                 (x, y-15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-
 
         # Display updated frame to web app
         yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', frame)[1].tobytes() + b'\r\n\r\n')
